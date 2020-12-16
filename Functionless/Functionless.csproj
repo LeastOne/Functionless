@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>Functionless</Title>
+    <Description>Write More Code, Less Azure Functions. Functionless is a library to ease your Azure Function development by minimizing the abstraction of your long-running services, processes, workflows, etc.</Description>
+    <Copyright>Copyright © 2014 Functionless. All rights reserved.</Copyright>
+    <PackageTags>Azure Functions, Durable Functions, Durable Task Framework, Azure Functions Dependency Injection</PackageTags>
+    <RepositoryUrl>https://github.com/LeastOne/Functionless</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/LeastOne/Functionless</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection.AzureFunctions" Version="6.0.0.51" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
+    <PackageReference Include="Ben.Demystifier" Version="0.1.6" />
+    <PackageReference Include="GitVersionTask" Version="5.5.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask" Version="2.3.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="4.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Package\Functionless.cs.pp">
+      <PackagePath>contentFiles\cs\netstandard2.0</PackagePath>
+      <BuildAction>Compile</BuildAction>
+    </Content>
+    <Content Include="Package\Functionless.props">
+      <PackagePath>build\</PackagePath>
+      <BuildAction>Compile</BuildAction>
+    </Content>
+  </ItemGroup>
+
+</Project>
