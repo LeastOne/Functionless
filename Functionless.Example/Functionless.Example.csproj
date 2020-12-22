@@ -2,8 +2,8 @@
   
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <UserSecretsId>73cf5ee0-3ce6-45c2-85dc-b9a37b8bc536</UserSecretsId>
   </PropertyGroup>
   

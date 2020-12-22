@@ -22,9 +22,9 @@ namespace Functionless.Example
         }
 
         [NewOrchestration]
-        public virtual async Task ExecuteAsync(ReportMethod? reportMethod = null, int? reportCount = null, int? reportLoad = null)
+        public virtual async Task ExecuteAsync()
         {
-            await this.GenerateReportsAsync(reportMethod);
+            await this.GenerateReportsAsync();
         }
 
         [SubOrchestration]
