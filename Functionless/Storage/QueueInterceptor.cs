@@ -69,7 +69,7 @@ namespace Functionless.Storage
                     new CloudQueueMessage(
                         new FunctionContext {
                             MethodSpecification = this.typeSerivce.Value.GetMethodSpecification(invocation.Method),
-                            Arguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, b)).ToArray()
+                            Arguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, b)).ToDictionary()
                         }.ToJson()
                     )
                 )

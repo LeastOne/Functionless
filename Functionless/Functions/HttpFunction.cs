@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 
 using Autofac;
@@ -55,13 +54,13 @@ namespace Functionless.Functions
             var functionContext = body.FromJson<FunctionContext>() ?? new FunctionContext();
             functionContext.BaseUrl = new Uri(request.GetDisplayUrl()).GetLeftPart(UriPartial.Authority);
             functionContext.MethodSpecification = functionContext.MethodSpecification ?? request.Query["$method"];
-            functionContext.Await = functionContext.Await || ((string)request.Query["$await"]).ParseOrDefault<bool>();
+            functionContext.Await = functionContext.Await || ((string)request.Query["$await"]).ChangeType<bool>();
             functionContext.CallbackUrl = functionContext.CallbackUrl ?? request.Query["$callbackUrl"];
             functionContext.Arguments = functionContext.Arguments ?? (
                 from q in request.Query
                 where !q.Key.StartsWith("$")
-                select (q.Key, q.Value.FirstOrDefault() as object)
-            ).ToArray();
+                select (q.Key, Value: q.Value.FirstOrDefault() as object)
+            ).ToDictionary();
 
             if (functionContext.Await)
             {

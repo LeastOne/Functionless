@@ -84,7 +84,7 @@ namespace Functionless.Durability
             var functionName = durableAttribute.GetFunctionName();
             var methodSpecificaiton = this.typeSerivce.Value.GetMethodSpecification(invocation.Method);
             var instanceId = durableAttribute.IsSingleInstance ? durableAttribute.InstanceId ?? methodSpecificaiton : null;
-            var methodArguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, Value: b)).ToArray();
+            var methodArguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, Value: b)).ToDictionary();
 
             var durableContext = new DurableContext {
                 OrchestrationContext = Context.Value.OrchestrationContext,
@@ -94,6 +94,7 @@ namespace Functionless.Durability
                     FunctionName = functionName,
                     InstanceId = instanceId,
                     MethodSpecification = methodSpecificaiton,
+                    Instance = invocation.InvocationTarget,
                     Arguments = methodArguments
                 }
             };
