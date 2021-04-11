@@ -27,7 +27,7 @@ namespace Functionless.Injection
                 assemblies
                     .SelectMany(s => s.GetTypes())
                     .Where(p => p.IsAssignableTo<IInterceptor>())
-                    .OrderBy(t => t.GetCustomAttribute<PrecedenceAttribute>()?.Value ?? int.MaxValue)
+                    .OrderBy(t => t.GetCustomAttribute<PrecedenceAttribute>()?.Value ?? double.MaxValue)
                     .ToArray();
 
             builder.RegisterTypes(interceptorTypes).AsSelf().SingleInstance();

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Reflection\Data\Test.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Reflection\Data\Test.txt" />
   </ItemGroup>
 

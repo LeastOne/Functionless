@@ -4,11 +4,11 @@ namespace Functionless.Injection
 {
     public class PrecedenceAttribute : Attribute
     {
-        public PrecedenceAttribute(int value)
+        public PrecedenceAttribute(double value)
         {
             this.Value = value;
         }
 
-        public int Value { get; set; }
+        public double Value { get; set; }
     }
 }

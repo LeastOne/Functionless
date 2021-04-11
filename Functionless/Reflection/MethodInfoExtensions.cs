@@ -1,11 +1,8 @@
-﻿using System;
-using System.Reflection;
-
-namespace Functionless.Reflection
+﻿namespace System.Reflection
 {
-    public static class MethodInfoExtensions
+    internal static class MethodInfoExtensions
     {
-        public static MethodInfo TryMakeGenericMethod(this MethodInfo method, Type[] genericParameters)
+        internal static MethodInfo TryMakeGenericMethod(this MethodInfo method, Type[] genericParameters)
         {
             return method.IsGenericMethod
                 ? method.MakeGenericMethod(genericParameters)

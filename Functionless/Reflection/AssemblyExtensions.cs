@@ -3,21 +3,19 @@ using System.Linq;
 
 namespace System.Reflection
 {
-    public static class AssemblyExtensions
+    internal static class AssemblyExtensions
     {
-        public static IEnumerable<Assembly> RelatedTo(this IEnumerable<Assembly> assemblies, Assembly assembly)
+        internal static IEnumerable<Assembly> RelatedTo(this IEnumerable<Assembly> assemblies, Assembly assembly)
         {
-            var assemblyFullName = assembly.FullName;
-
             return assemblies.Where(
                 p => !p.IsDynamic && (
-                    p.FullName == assemblyFullName ||
-                    p.GetReferencedAssemblies().Any(q => q.FullName == assemblyFullName)
+                    p.FullName == assembly.FullName ||
+                    p.GetReferencedAssemblies().Any(q => q.FullName == assembly.FullName)
                 )
             );
         }
 
-        public static Type[] GetTypesOrDefault(this Assembly assembly)
+        internal static Type[] GetTypesOrDefault(this Assembly assembly)
         {
             try
             {
