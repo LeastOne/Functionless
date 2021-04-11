@@ -15,7 +15,6 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection.AzureFunctions" Version="6.0.0.51" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
-    <PackageReference Include="Ben.Demystifier" Version="0.1.6" />
     <PackageReference Include="GitVersionTask" Version="5.5.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

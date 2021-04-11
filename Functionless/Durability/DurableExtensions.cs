@@ -62,7 +62,6 @@ namespace Functionless.Durability
                 );
             }
             while (response.StatusCode == HttpStatusCode.NotFound);
-
         }
     }
 }

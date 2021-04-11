@@ -39,7 +39,7 @@ namespace Functionless.Tests.Default
             Byte.ChangeType<byte>().Should().Be(byte.Parse(Byte));
             Short.ChangeType<short>().Should().Be(short.Parse(Short));
             Int.ChangeType<int>().Should().Be(int.Parse(Int));
-            Int.ChangeType<int?>().Should().Be(int.Parse(Int) as int?); // TODO
+            Int.ChangeType<int?>().Should().Be(int.Parse(Int) as int?);
             string.Empty.ChangeType<int?>().Should().BeNull();
             Long.ChangeType<long>().Should().Be(long.Parse(Long));
             Float.ChangeType<float>().Should().Be(float.Parse(Float));

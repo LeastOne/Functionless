@@ -2,33 +2,9 @@
 
 namespace System
 {
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
-        public static T ValueOrDefault<T>(this T value)
-        {
-            return value == null ? default : value;
-        }
-
-        public static T ParseOrDefault<T>(this object value, T @default = default)
-        {
-            if (value == null)
-            {
-                return @default;
-            }
-
-            try
-            {
-                var castType = typeof(T);
-                var convertType = Nullable.GetUnderlyingType(castType) ?? castType;
-                return (T)Convert.ChangeType(value, convertType);
-            }
-            catch
-            {
-                return @default;
-            }
-        }
-
-        public static object ChangeType(this object value, Type type)
+        internal static object ChangeType(this object value, Type type)
         {
             if (value == null)
             {
@@ -63,17 +39,12 @@ namespace System
                 Convert.ChangeType(value, typeOrUnderlyingType);
         }
 
-        public static T ChangeType<T>(this object value)
+        internal static T ChangeType<T>(this object value)
         {
             return (T)value.ChangeType(typeof(T));
         }
 
-        public static bool IsNumber(this object value)
-        {
-            return value.IsWholeNumber() || value.IsRealNumber();
-        }
-
-        public static bool IsWholeNumber(this object value)
+        internal static bool IsWholeNumber(this object value)
         {
             return
                 value is byte ||
@@ -83,14 +54,6 @@ namespace System
                 value is uint ||
                 value is long ||
                 value is ulong;
-        }
-
-        public static bool IsRealNumber(this object value)
-        {
-            return
-                value is float ||
-                value is double ||
-                value is decimal;
         }
     }
 }
