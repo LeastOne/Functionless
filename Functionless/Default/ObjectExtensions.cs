@@ -41,7 +41,7 @@ namespace System
 
         internal static T ChangeType<T>(this object value)
         {
-            return (T)value.ChangeType(typeof(T));
+            return (T)(value?.ChangeType(typeof(T)) ?? default(T));
         }
 
         internal static bool IsWholeNumber(this object value)
