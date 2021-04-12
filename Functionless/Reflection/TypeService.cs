@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 
 using Functionless.Caching;
+using Functionless.Injection;
 
 namespace Functionless.Reflection
 {
@@ -71,7 +72,7 @@ namespace Functionless.Reflection
             var matches = (
                 from assembly in AppDomain.CurrentDomain.GetAssemblies()
                 from typeInfo in assembly.GetTypesOrDefault().DefaultIfEmpty().Cast<TypeInfo>()
-                let exact = typeInfo?.FullName == nameSpec || typeInfo?.FullName == $"System.{nameSpec}" || typeInfo?.FullName == $"{Startup.HostAssembly?.GetName()?.Name}.{nameSpec}"
+                let exact = typeInfo?.FullName == nameSpec || typeInfo?.FullName == $"System.{nameSpec}" || Startup.HostAssemblies.Any(p => $"{p?.GetName()?.Name}.{nameSpec}" == typeInfo?.FullName)
                 where typeInfo != null && !typeInfo.FullName.Contains("+") && typeInfo.FullName.Contains(nameSpec)
                 && typeInfo.GenericTypeParameters.Count() == genericTypes.Count()
                 orderby exact descending
