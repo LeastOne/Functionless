@@ -13,15 +13,15 @@ namespace Functionless.Injection
 {
     public class Module : Autofac.Module
     {
+        private static bool loaded = false;
+
         protected override void Load(ContainerBuilder builder)
         {
+            if (loaded) return; loaded = true;
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().RelatedTo(
                 Assembly.GetExecutingAssembly()
             ).ToList();
-
-            builder.RegisterAssemblyModules(
-                assemblies.Where(p => p != Assembly.GetExecutingAssembly()).ToArray()
-            );
 
             var interceptorTypes =
                 assemblies
@@ -34,8 +34,7 @@ namespace Functionless.Injection
 
             assemblies.ForEach(
                 assembly => builder
-                    .RegisterAssemblyTypes(assembly)
-                    .Where(p => p.IsPublic && p.IsClass)
+                    .RegisterAssemblyTypes(assembly).PublicOnly()
                     .AsSelf().AsImplementedInterfaces()
                     .PreserveExistingDefaults()
                     .EnableClassInterceptors()

@@ -1,8 +1,4 @@
-﻿using System.Linq;
-
-using Functionless.Durability;
-
-namespace System.Reflection
+﻿namespace System.Reflection
 {
     internal static class TypeExtensions
     {
