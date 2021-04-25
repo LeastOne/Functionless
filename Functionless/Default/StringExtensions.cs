@@ -1,20 +1,13 @@
 ﻿using System.Collections.Generic;
 
+using Functionless.Json;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace System
 {
     internal static class StringExtensions
     {
-        private static JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings {
-                Formatting = Formatting.Indented,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                Converters = new[] { new StringEnumConverter() }
-            };
-
         internal static string Join(this IEnumerable<string> values, string separator = "")
         {
             return string.Join(separator, values);
@@ -28,7 +21,7 @@ namespace System
         internal static string ToJson<T>(this T value, bool indented = true)
         {
             var formatting = indented ? Formatting.Indented : Formatting.None;
-            return JsonConvert.SerializeObject(value, formatting, JsonSerializerSettings);
+            return JsonConvert.SerializeObject(value, formatting, Serializer.Settings);
         }
 
         internal static T FromJson<T>(this string value)
