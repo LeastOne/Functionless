@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using Autofac;
 
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+using Functionless.Json;
 using Functionless.Reflection;
 
 namespace Functionless.Durability
@@ -24,7 +24,7 @@ namespace Functionless.Durability
 
         public dynamic Instance { get; set; }
 
-        public IDictionary<string, object> Arguments { get; set; }
+        public dynamic Arguments { get; set; }
 
         public bool Await { get; set; }
 
@@ -40,13 +40,11 @@ namespace Functionless.Durability
                 var instance = componentContext.Resolve(method.DeclaringType);
                 if (this.Instance != null)
                     using (var reader = (this.Instance as JToken).CreateReader())
-                        JsonSerializer.CreateDefault().Populate(reader, instance);
+                        Serializer.Default.Populate(reader, instance);
                 var arguments = (
                     from p in parameters
-                    join a in this.Arguments on p.Name.ToLower() equals a.Key.ToLower()
-                    select a.Value is JToken
-                        ? (a.Value as JToken).ToObject(p.ParameterType)
-                        : a.Value.ChangeType(p.ParameterType)
+                    join a in this.Arguments as JToken on p.Name.ToLower() equals a.Path.ToLower()
+                    select (a as JProperty).Value.ToObject(p.ParameterType, Serializer.Default)
                 ).ToArray();
                 var task = method.Invoke(instance, arguments) as dynamic; await task;
                 return method.ReturnType.IsGenericType ? task.Result : null;
