@@ -10,6 +10,8 @@ using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 
 using Autofac;
 
+using Newtonsoft.Json.Linq;
+
 using Functionless.Durability;
 
 namespace Functionless.Functions
@@ -56,11 +58,11 @@ namespace Functionless.Functions
             functionContext.MethodSpecification = functionContext.MethodSpecification ?? request.Query["$method"];
             functionContext.Await = functionContext.Await || ((string)request.Query["$await"]).ChangeType<bool>();
             functionContext.CallbackUrl = functionContext.CallbackUrl ?? request.Query["$callbackUrl"];
-            functionContext.Arguments = functionContext.Arguments ?? (
+            functionContext.Arguments = functionContext.Arguments ?? JToken.FromObject((
                 from q in request.Query
                 where !q.Key.StartsWith("$")
                 select (q.Key, Value: q.Value.FirstOrDefault() as object)
-            ).ToDictionary();
+            ).ToDictionary());
 
             if (functionContext.Await)
             {
