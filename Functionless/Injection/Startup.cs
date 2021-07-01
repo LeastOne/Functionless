@@ -33,6 +33,8 @@ namespace Functionless.Injection
 
             if (Startups.Any(p => !p.Value)) return;
 
+            builder.Services.AddHttpClient();
+
             var serviceDescriptor = builder.Services.FirstOrDefault(d => d.ServiceType == typeof(IConfiguration));
 
             var originalConfig = (

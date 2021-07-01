@@ -11,10 +11,10 @@
     {
         public string ExternalOrchestratorUrl { get; set; }
 
-        public ReportMethod ReportMethod { get; set; }
+        public ReportMethod ReportMethod { get; set; } = ReportMethod.Activity;
 
-        public int ReportCount { get; set; }
+        public int ReportCount { get; set; } = 10000;
 
-        public int ReportLoad { get; set; }
+        public int ReportLoad { get; set; } = 100000000;
     }
 }
