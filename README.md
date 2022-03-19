@@ -13,28 +13,28 @@ Serverless platforms like Azure Functions offer the allure of "infinite" on-dema
 Installation
 ------------
 
-Ensure your Azure Function project targets [Azure Functions v3](https://docs.microsoft.com/en-us/azure/azure-functions/functions-versions) and [Microsoft.NET.Sdk.Functions@3.0.0+](https://www.nuget.org/packages/Microsoft.NET.Sdk.Functions/).
+Ensure your Azure Function project targets [Azure Functions v4](https://docs.microsoft.com/en-us/azure/azure-functions/functions-versions) and [Microsoft.NET.Sdk.Functions@4.0.0+](https://www.nuget.org/packages/Microsoft.NET.Sdk.Functions/).
 
 ``` XML
 <Project Sdk="Microsoft.NET.Sdk">
   ...
   <PropertyGroup>
     ...
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     ...
   </PropertyGroup>
     ...
   <ItemGroup>
     ...
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
     ...
   </ItemGroup>
   ...
 </Project>
 ```
 
-Install [Functionless](https://www.nuget.org/packages/Functionless/) in your Azure Functions v3 project and any dependant projects that need to be called durably.
+Install [Functionless](https://www.nuget.org/packages/Functionless/) in your Azure Functions project and any dependant projects that need to be called durably.
 
 ```
 PM> Install-Package Functionless
@@ -113,6 +113,10 @@ Notices
 * Durable attributes (i.e. `NewOrchestration`, `SubOrchestration`, `Activity`, `Entity` & `Queue`) must only be applied to methods which are `public`, `virtual` and return a `Task`.
 * The [Durable Function Code Constraints](https://docs.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-code-constraints) must be respected.
 * The Microsoft Azure Storage Emulator has some known flaws and can produce unexpected results, especially if using external orchestrations (see [here](https://github.com/Azure/azure-functions-durable-extension/issues/1531)). In such scenarios using an actual Azure Storage Account is recommended.
+* Alternatively [Azurite](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio) is the Microsoft official recommended storage emulator of choice going forward.
+* v1.1.1 and earlier is compatiabile with .netstandard2.1 and Azure Functions v3 (but not v4)
+* v1.1.2 and later is compatible with `netstandard2.1` and above including (`net5.0`, `net6.0`, etc.) and Azure Functions v4 and later.
+* On 3/18/2022 a force commit was required to repair an issue with the git history.
 
 Troubleshooting
 ---------------
@@ -289,8 +293,3 @@ public class ReportFunction
 ```
 
 After successfully re-executing the job all the way to completion I'm pleased to have achieved the sought after scalability, performance and cost savings. However, reviewing the necessary added code which now contains intermixed host and domain logic I'm left with serious doubts about the feasibility of applying the approach to other more complex scenarios. Those doubts became the catalyst to seek out an alternative method which resulted in the creation of Functionless.
-
-Breaking Change
----------------
-
-On 3/18/2022 a force commit was required to repair an issue with the git history.
