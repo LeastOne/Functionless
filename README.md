@@ -102,7 +102,7 @@ Benefits
 * Support asynchronous workflows awaiting HTTP callbacks at indeterminate times.
 * Fire and forget scalable queues of on demand activities.
 * Aggregate activities into single addressable entities that must process synchronously one at a time.
-* Distribute executions externally to other function app service plans consumption based our otherwise.
+* Distribute executions externally to other function app service plans consumption based or otherwise.
 
 Notices
 -------
@@ -289,3 +289,8 @@ public class ReportFunction
 ```
 
 After successfully re-executing the job all the way to completion I'm pleased to have achieved the sought after scalability, performance and cost savings. However, reviewing the necessary added code which now contains intermixed host and domain logic I'm left with serious doubts about the feasibility of applying the approach to other more complex scenarios. Those doubts became the catalyst to seek out an alternative method which resulted in the creation of Functionless.
+
+Breaking Change
+---------------
+
+On 3/18/2022 a force commit was required to repair an issue with the git history.

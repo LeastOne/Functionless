@@ -30,17 +30,19 @@ namespace Functionless.Example
         [SubOrchestration]
         public virtual async Task GenerateReportsAsync(ReportMethod? reportMethod = null, int? reportCount = null, int? reportLoad = null)
         {
-            reportMethod = reportMethod ?? this.reportConfig.ReportMethod;
+            this.reportConfig.ReportMethod = reportMethod ?? this.reportConfig.ReportMethod;
+            this.reportConfig.ReportCount = reportCount ?? this.reportConfig.ReportCount;
+            this.reportConfig.ReportLoad = reportLoad ?? this.reportConfig.ReportLoad;
 
             var method = this.GetType().GetMethod(
-                $"GenerateReport{reportMethod}Async"
+                $"GenerateReport{this.reportConfig.ReportMethod}Async"
             );
 
             var tasks = Enumerable.Range(0, this.reportConfig.ReportCount).Select(
                 _ => method.Invoke(this, null) as Task
             ).ToArray();
 
-            if (reportMethod != ReportMethod.Queue)
+            if (this.reportConfig.ReportMethod != ReportMethod.Queue)
             {
                 await Task.WhenAll(tasks);
             }
