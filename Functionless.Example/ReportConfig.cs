@@ -9,7 +9,7 @@
 
     public class ReportConfig : IConfig
     {
-        public string ExternalOrchestratorUrl { get; set; }
+        public string ExternalOrchestratorUrl { get; set; } = "http://localhost:7071/api/orchestrator";
 
         public ReportMethod ReportMethod { get; set; } = ReportMethod.Activity;
 

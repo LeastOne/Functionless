@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ namespace Functionless.Example
                 .Where(p => !p.IsInterface && p.IsAssignableTo<IConfig>())
                 .ToList().ForEach(
                     a => builder.Register(
-                        c => c.Resolve<IConfiguration>().GetSection(a.Name).Get(a)
+                        c => c.Resolve<IConfiguration>().GetSection(a.Name)?.Get(a) ?? Activator.CreateInstance(a)
                     ).As(a).SingleInstance()
                 );
         }
