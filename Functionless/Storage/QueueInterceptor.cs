@@ -29,7 +29,7 @@ namespace Functionless.Storage
             this.typeSerivce = typeSerivce;
         }
 
-        public virtual void Intercept(IInvocation invocation)
+        public void Intercept(IInvocation invocation)
         {
             var queueAttribute = Attribute
                 .GetCustomAttributes(invocation.Method, typeof(QueueAttribute))
@@ -48,7 +48,7 @@ namespace Functionless.Storage
             }
         }
 
-        protected virtual dynamic Enqueue(IInvocation invocation)
+        protected dynamic Enqueue(IInvocation invocation)
         {
             // Retrieve storage account from connection string.
             var storageAccount = CloudStorageAccount.Parse(
@@ -68,7 +68,7 @@ namespace Functionless.Storage
                 _ => queue.AddMessageAsync(
                     new CloudQueueMessage(
                         new FunctionContext {
-                            MethodSpecification = this.typeSerivce.Value.GetMethodSpecification(invocation.Method),
+                            MethodSpecification = this.typeSerivce.Value.GetMethodSpecification(invocation.TargetType, invocation.Method),
                             Arguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, b)).ToDictionary()
                         }.ToJson()
                     )

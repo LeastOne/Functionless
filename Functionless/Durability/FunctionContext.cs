@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +36,8 @@ namespace Functionless.Durability
                 var typeService = componentContext.Resolve<TypeService>();
                 var method = typeService.GetMethod(this.MethodSpecification);
                 var parameters = method.GetParameters();
-                var instance = componentContext.Resolve(method.DeclaringType);
+                var reflectedTypeFullName = method.ReflectedType.FullName;
+                var instance = componentContext.Resolve(method.ReflectedType);
                 if (this.Instance != null)
                     using (var reader = (this.Instance as JToken).CreateReader())
                         Serializer.Default.Populate(reader, instance);

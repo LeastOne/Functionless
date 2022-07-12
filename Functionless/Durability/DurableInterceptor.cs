@@ -33,7 +33,7 @@ namespace Functionless.Durability
 
         public static AsyncLocal<DurableContext> Context { get; } = new AsyncLocal<DurableContext>();
 
-        public virtual void Intercept(IInvocation invocation)
+        public void Intercept(IInvocation invocation)
         {
             Depth.Value++;
 
@@ -82,14 +82,14 @@ namespace Functionless.Durability
 
             var baseUrl = Context.Value.FunctionContext?.BaseUrl;
             var functionName = durableAttribute.GetFunctionName();
-            var methodSpecificaiton = this.typeSerivce.Value.GetMethodSpecification(invocation.Method);
+            var methodSpecificaiton = this.typeSerivce.Value.GetMethodSpecification(invocation.TargetType, invocation.Method);
             var instanceId = durableAttribute.IsSingleInstance ? durableAttribute.InstanceId ?? methodSpecificaiton : null;
             var methodArguments = invocation.Method.GetParameters().Zip(invocation.Arguments, (a, b) => (a.Name, Value: b)).ToDictionary();
 
             var durableContext = new DurableContext {
                 OrchestrationContext = Context.Value.OrchestrationContext,
                 OrchestrationClient = Context.Value.OrchestrationClient,
-                FunctionContext =  new FunctionContext {
+                FunctionContext = new FunctionContext {
                     BaseUrl = baseUrl,
                     FunctionName = functionName,
                     InstanceId = instanceId,
@@ -115,7 +115,7 @@ namespace Functionless.Durability
             const string eventName = "external-durable-invocation-complete";
             durableContext.FunctionContext.CallbackUrl = durableContext.OrchestrationClient.CreateHttpManagementPayload(durableContext.OrchestrationContext.InstanceId).SendEventPostUri.Replace("{eventName}", eventName);
             var url = this.configuration.GetValue<string>(durableAttribute.ExternalOrchestratorUrlOrAppSetting) ?? durableAttribute.ExternalOrchestratorUrlOrAppSetting;
-            
+
             await durableContext.OrchestrationContext.CallHttpAsync(
                 HttpMethod.Post,
                 new Uri(url),

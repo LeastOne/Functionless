@@ -26,7 +26,7 @@ namespace Functionless.Tests.Reflection
             var method = typeService.GetMethod(spec);
             var instance = Activator.CreateInstance(method.DeclaringType);
             method.Invoke(instance, arguments).Should().Be(expected);
-            var spec2 = typeService.GetMethodSpecification(method);
+            var spec2 = typeService.GetMethodSpecification(method.ReflectedType, method);
             var method2 = typeService.GetMethod(spec2);
             method2.Should().BeSameAs(method);
         }

@@ -93,7 +93,7 @@ namespace Functionless.Reflection
             return type.TryMakeGenericType(genericTypes);
         }
 
-        public string GetMethodSpecification(MethodInfo method)
+        public string GetMethodSpecification(Type targetType, MethodInfo method)
         {
             var generics = string.Empty;
 
@@ -105,7 +105,7 @@ namespace Functionless.Reflection
 
             var parameters = method.GetParameters().Select(s => this.GetTypeSpecification(s.ParameterType)).ToList().Join(",");
 
-            return $"{this.GetTypeSpecification(method.DeclaringType)}.<{method.Name}>{generics}({parameters})";
+            return $"{this.GetTypeSpecification(targetType)}.<{method.Name}>{generics}({parameters})";
         }
 
         public string GetTypeSpecification(Type type)
