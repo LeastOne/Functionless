@@ -84,6 +84,8 @@ namespace Functionless.Example
 
         private Task GenerateReportAsync()
         {
+            this.logger.LogWarning("Report Generated");
+
             Enumerable.Range(0, Environment.ProcessorCount).AsParallel().Select(
                 _ => Enumerable.Range(1, this.reportConfig.ReportLoad).Select(p => (long)p).Sum()
             ).Last();
