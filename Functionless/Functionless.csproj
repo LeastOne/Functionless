@@ -13,6 +13,10 @@
     <PackageProjectUrl>https://github.com/LeastOne/Functionless</PackageProjectUrl>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>1701;1702;DF0112;DF0113;</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection.AzureFunctions" Version="7.2.0.92" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
