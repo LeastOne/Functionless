@@ -16,7 +16,7 @@ namespace Functionless.Reflection
 
         private static Regex TypeSpecRegex = new Regex(@"^(?<Name>.*?(`\d+)?)(\[(?<Generics>.*?)\])?$", RegexOptions.Compiled);
 
-        private static Regex GenericSpecRegex = new Regex(@"[\w.]+(`\d+\[((?>[^\[\]]+|\((?<n>)|\)(?<-n>))+(?(n)(?!)))\])?", RegexOptions.Compiled);
+        private static Regex GenericSpecRegex = new Regex(@"[\w.+]+(`\d+\[((?>[^\[\]]+|\((?<n>)|\)(?<-n>))+(?(n)(?!)))\])?", RegexOptions.Compiled);
 
         [MemoryCache("{0}")]
         public MethodInfo GetMethod(string spec)
@@ -42,8 +42,10 @@ namespace Functionless.Reflection
                 from methodInfo in type.GetMethods()
                 where methodInfo.Name == nameSpec
                 && methodInfo.GetGenericArguments().Count() == genericTypes.Count()
-                && methodInfo.GetParameters().Count() == argumentTypes.Count()
+                && methodInfo.GetParameters().Count(p => !p.HasDefaultValue) <= argumentTypes.Count()
+                && methodInfo.GetParameters().Count() >= argumentTypes.Count()
                 && methodInfo.GetParameters()
+                    .Take(argumentTypes.Count())
                     .Select((p, i) => (p.ParameterType, Index: i))
                     .All(p => p.ParameterType.IsGenericParameter || p.ParameterType == argumentTypes[p.Index])
                 select methodInfo
@@ -72,9 +74,8 @@ namespace Functionless.Reflection
             var matches = (
                 from assembly in AppDomain.CurrentDomain.GetAssemblies()
                 from typeInfo in assembly.GetTypesOrDefault().DefaultIfEmpty().Cast<TypeInfo>()
-                let exact = typeInfo?.FullName == nameSpec || typeInfo?.FullName == $"System.{nameSpec}" || Startup.HostAssemblies.Any(p => $"{p?.GetName()?.Name}.{nameSpec}" == typeInfo?.FullName)
-                where typeInfo != null && !typeInfo.FullName.Contains("+") && typeInfo.FullName.Contains(nameSpec)
-                && typeInfo.GenericTypeParameters.Count() == genericTypes.Count()
+                where typeInfo != null && /*!typeInfo.FullName.Contains("+") &&*/ typeInfo.FullName.EndsWith(nameSpec) && typeInfo.GenericTypeParameters.Count() == genericTypes.Count()
+                let exact = typeInfo?.FullName == nameSpec || typeInfo?.FullName == $"System.{nameSpec}"// || Startup.HostAssemblies.Any(p =>  Regex.IsMatch(typeInfo?.FullName, @$"{p?.GetName()?.Name}\.(.*?\.)*{nameSpec}$"))
                 orderby exact descending
                 select (TypeInfo: typeInfo, Exact: exact)
             ).ToList();

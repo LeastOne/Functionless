@@ -5,16 +5,20 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <UserSecretsId>73cf5ee0-3ce6-45c2-85dc-b9a37b8bc536</UserSecretsId>
+    <FunctionsInDependencies>true</FunctionsInDependencies>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Functionless" Version="1.2.0" />
 	<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Functionless\Functionless.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
     <None Update="host.json">

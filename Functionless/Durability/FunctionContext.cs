@@ -25,6 +25,8 @@ namespace Functionless.Durability
 
         public dynamic Arguments { get; set; }
 
+        public dynamic Config { get; set; }
+
         public bool Await { get; set; }
 
         public string CallbackUrl { get; set; }
@@ -43,8 +45,9 @@ namespace Functionless.Durability
                         Serializer.Default.Populate(reader, instance);
                 var arguments = (
                     from p in parameters
-                    join a in this.Arguments as JToken on p.Name.ToLower() equals a.Path.ToLower()
-                    select (a as JProperty).Value.ToObject(p.ParameterType, Serializer.Default)
+                    join a in this.Arguments as JToken on p.Name.ToLower() equals a.Path.ToLower() into matchingArguments
+                    from a in matchingArguments.DefaultIfEmpty()
+                    select a != null ? (a as JProperty).Value.ToObject(p.ParameterType, Serializer.Default) : null
                 ).ToArray();
                 var task = method.Invoke(instance, arguments) as dynamic; await task;
                 return method.ReturnType.IsGenericType ? task.Result : null;

@@ -42,7 +42,7 @@ Modify the report method, count and/or load ...
 POST /api/orchestrator
 
 {
-    "MethodSpecification": "Functionless.Example.ReportJob.<GenerateReportsAsync>(Nullable`1[ReportMethod], Nullable`1[Int32], Nullable`1[Int32])",
+    "MethodSpecification": "Functionless.Example.ReportJob.<GenerateReportsAsync>()",
     "Arguments": {
         "ReportMethod": "Entity",
         "ReportCount": "10",

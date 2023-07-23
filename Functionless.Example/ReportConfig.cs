@@ -13,8 +13,8 @@
 
         public ReportMethod ReportMethod { get; set; } = ReportMethod.Activity;
 
-        public int ReportCount { get; set; } = 10000;
+        public int ReportCount { get; set; } = 10;
 
-        public int ReportLoad { get; set; } = 100000000;
+        public int ReportLoad { get; set; } = 1000;
     }
 }
