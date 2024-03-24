@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask.ContextImplementations;
+
+using DurableClientAttribute = Microsoft.Azure.Functions.Worker.DurableClientAttribute;
 
 using Functionless.Durability;
 
@@ -17,10 +19,10 @@ namespace Functionless.Example
             this.reportJob = reportJob;
         }
 
-        [FunctionName("reportjob-execute")]
+        [Function("reportjob-execute")]
         public async Task Execute(
             [HttpTrigger] HttpRequest request,
-            [DurableClient] IDurableOrchestrationClient client)
+            [DurableClient] IDurableClientFactory client)
         {
             await client.DurablyInvokeAsync(
                 async () => await this.reportJob.ExecuteAsync()

@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Functionless</Title>
     <Description>Write More Code, Less Azure Functions. Functionless is a library to ease your Azure Function development by minimizing the abstraction of your long-running services, processes, workflows, etc.</Description>
@@ -12,11 +11,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LeastOne/Functionless</PackageProjectUrl>
   </PropertyGroup>
-
   <PropertyGroup>
     <NoWarn>1701;1702;DF0112;DF0113;</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection.AzureFunctions" Version="7.2.0.92" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
@@ -30,10 +27,9 @@
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Package\Functionless.cs.pp">
-      <PackagePath>contentFiles\cs\net6.0</PackagePath>
+      <PackagePath>contentFiles\cs\net8.0</PackagePath>
       <BuildAction>Compile</BuildAction>
     </Content>
     <Content Include="Package\Functionless.props">
@@ -41,12 +37,10 @@
       <BuildAction>Compile</BuildAction>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

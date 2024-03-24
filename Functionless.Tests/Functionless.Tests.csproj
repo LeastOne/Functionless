@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Data\Test.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.FakeItEasy" Version="7.0.0" />
     <PackageReference Include="FakeItEasy" Version="7.4.0" />
@@ -22,9 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Functionless\Functionless.csproj" />
   </ItemGroup>
-
 </Project>

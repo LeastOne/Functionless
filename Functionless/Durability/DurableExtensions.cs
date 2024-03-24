@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask.ContextImplementations;
 using Microsoft.Extensions.Primitives;
 
 namespace Functionless.Durability
@@ -22,11 +23,11 @@ namespace Functionless.Durability
             return instances.DurableOrchestrationState;
         }
 
-        public static async Task DurablyInvokeAsync(this IDurableOrchestrationClient durableOrchestrationClient, Func<Task> func)
+        public static async Task DurablyInvokeAsync(this IDurableClientFactory durableOrchestrationClient, Func<Task> func)
         {
             DurableInterceptor.Context.Value =
                 new DurableContext {
-                    OrchestrationClient = durableOrchestrationClient
+                    OrchestrationClient = durableOrchestrationClient.CreateClient()
                 };
 
             await func();
