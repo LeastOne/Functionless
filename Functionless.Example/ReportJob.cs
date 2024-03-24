@@ -25,22 +25,7 @@ namespace Functionless.Example
         [NewOrchestration]
         public virtual async Task ExecuteAsync(ReportConfig reportConfig = null)
         {
-            logger.LogWarning("Default ReportConfig");
-            logger.LogWarning(JsonConvert.SerializeObject(this.reportConfig, Formatting.Indented));
-
-            if (reportConfig != null)
-            {
-                logger.LogWarning("Received ReportConfig");
-                var input = JsonConvert.SerializeObject(reportConfig, Formatting.Indented);
-                logger.LogWarning(input);
-
-                JsonConvert.PopulateObject(input, this.reportConfig);
-
-                logger.LogWarning("Resulting ReportConfig");
-                logger.LogWarning(JsonConvert.SerializeObject(this.reportConfig, Formatting.Indented));
-            }
-
-            //await this.GenerateReportsAsync();
+            await this.GenerateReportsAsync();
         }
 
         [SubOrchestration]
